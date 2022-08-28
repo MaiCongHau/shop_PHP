@@ -1,0 +1,64 @@
+<?php require ABSPATH_SITE. "layout/header.php" ?>
+<main id="maincontent" class="page-main">
+   <div class="container">
+       <div class="row">
+           <div class="col-xs-9">
+               <ol class="breadcrumb">
+                   <li><a href="/" target="_self">Trang chủ</a></li>
+                   <li><span>/</span></li>
+                   <li class="active"><span><?=  $category_name_final?></span></li>
+               </ol>
+           </div>
+           <div class="col-xs-3 hidden-lg hidden-md">
+               <a class="hidden-lg pull-right btn-aside-mobile" href="javascript:void(0)">Bộ lọc <i class="fa fa-angle-double-right"></i></a>
+           </div>
+           <div class="clearfix"></div>
+           <?php require ABSPATH_SITE. "layout/sidebar.php" ?>
+        
+           <div class="col-md-9 products">
+               <div class="row equal">
+                   <div class="col-xs-6">
+                       <h4 class="home-title"><?=  $category_name_final?></h4>
+                   </div>
+                   <div class="col-xs-6 sort-by">
+                       <div class="pull-right">
+                           <label class="left hidden-xs" for="sort-select">Sắp xếp: </label>
+                           <!-- get_url_without_param(): giúp ta lấy được đường dẫn hiện tại, rồi chúng ta add thêm cho nó cái param nữa là dc  -->
+                           <select id="sort-select" data-url="<?=get_url_without_param()?>">
+                               <option value="" <?=empty($sort)?"selected":""?> >Mặc định</option>
+                               <option  value="price-asc" <?=$sort=="price-asc"?"selected":""?> >Giá tăng dần</option>
+                               <option  value="price-desc" <?=$sort=="price-desc"?"selected":""?>>Giá giảm dần</option>
+                               <option  value="alpha-asc" <?=$sort=="alpha-asc"?"selected":""?> >Từ A-Z</option>
+                               <option  value="alpha-desc" <?=$sort=="alpha-desc"?"selected":""?> >Từ Z-A</option>
+                               <option  value="created-asc" <?=$sort=="created-asc"?"selected":""?> >Cũ đến mới</option>
+                               <option  value="created-desc" <?=$sort=="created-desc"?"selected":""?> >Mới đến cũ</option>
+                           </select>
+                       </div>
+                   </div>
+                   <div class="clearfix"></div>
+                    <?php foreach ($products as $key =>$product) : ?>
+                        <div class="col-xs-6 col-sm-3">
+                        <?php require ABSPATH_SITE. "layout/product.php" ?>
+                        
+                        </div>   
+                        <?php endforeach ?>  
+               </div>
+               <!-- Paging -->
+               <!-- javascript:void(0) này có thể thay thể bằng "#" nhưng nên xài javascript:void(0) do nó ko bị giật  -->
+               <ul class="pagination pull-right" data-url="<?=get_url_without_param()?>">
+                <?php if($page != 1): ?>
+                    <li><a href="javascript:void(0)" onclick="goToPage(<?=$page-1?>,this)">Trước</a></li>
+                <?php endif ?>
+                   <?php for($i=1;$i<=$pageNumber;$i++):?>
+                   <li class="<?=$page == $i ? "active":""?>"><a href="javascript:void(0)" onclick="goToPage(<?=$i?>,this)"><?=$i?></a></li>
+                   <?php endfor ?>
+                   <?php  if($page != $pageNumber): ?>
+                   <li><a href="javascript:void(0)" onclick="goToPage(<?=$page+1?>,this)">Sau</a></li>
+                   <?php endif ?>
+               </ul>
+               <!-- End paging -->
+           </div>
+       </div>
+   </div>
+</main>
+<?php require ABSPATH_SITE. "layout/footer.php" ?>
